@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Arduino stuff
+.pio
+
+# Intellij / CLion
+.idea
+
+# VScode
+.vscode
