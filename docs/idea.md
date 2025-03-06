@@ -12,9 +12,9 @@ A simple home automation system on the Arduino platform that responds to certain
 - Add more features as needed.
 
 ## Features
-- ** Light Control**: Turn on/off lights based on motion detection.
-- ** Light Dimmer**: Adjust light brightness based on ambient light.
-- ** Light Controller**: Control lights based on time of day.
+- **Light Control**: Turn on/off lights based on motion detection.
+- **Light Dimmer**: Adjust light brightness based on ambient light.
+- **Light Controller**: Control lights based on time of day.
 - **Fire Alarm**: Trigger an alarm when smoke is detected.
 - **Fire Alarm**: Control lights when smoke is detected.
 
