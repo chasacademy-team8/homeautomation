@@ -58,7 +58,7 @@ The target audience consists of homeowners.. Users should be able to install and
 - The system should be user-friendly and easy to configure.
 
 3.3 External Interface Requirements  
-- **User Interface**: Simple configuration via Arduino serial monitor or an optional mobile app.
+- **User Interface**: Simple status updates on a LCD freom the system.
 - **Hardware Interfaces**: Arduino microcontroller, PIR sensor, fire sensor, RTC module, LED lights, and buzzer.
 
 3.4 System Features  
