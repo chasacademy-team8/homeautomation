@@ -71,5 +71,4 @@ Any appendices, sample data, or diagrams supporting the document.
 
 ---
 
-This SRS document has been customized for the Home Automation System based on Arduino. Further details can be added as needed.
 
