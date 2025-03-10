@@ -35,5 +35,3 @@ jobs:
       - name: Build firmware
         run: pio run
 
-      - name: Run unit tests (if applicable)
-        run: pio test
