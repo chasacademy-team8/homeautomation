@@ -1,6 +1,7 @@
 **Software Requirements Specification (SRS)**
 
 **1. Introduction**
+
 1.1 Purpose  
 This document specifies the requirements for the Home Automation System, which aims to automate lighting and fire detection using the Arduino platform.
 
@@ -22,6 +23,7 @@ This document describes functional and non-functional requirements, design const
 ---
 
 **2. Overall Description**
+
 2.1 Product Perspective  
 The system is a standalone home automation solution designed to enhance convenience and safety. It will interact with sensors and output devices such as LEDs, buzzers, and actuators to automate lighting and fire alarm functionalities.
 
@@ -43,6 +45,7 @@ The target audience consists of homeowners with basic knowledge of home automati
 ---
 
 **3. Specific Requirements**
+
 3.1 Functional Requirements  
 - The system shall turn lights on when motion is detected.
 - The system shall adjust light brightness based on ambient light conditions.
@@ -66,7 +69,8 @@ The target audience consists of homeowners with basic knowledge of home automati
 
 ---
 
-**4. Appendices**  
+**4. Appendices**
+
 Any appendices, sample data, or diagrams supporting the document.
 
 ---
