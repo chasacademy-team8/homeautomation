@@ -36,10 +36,10 @@ The system will include the following functions:
 - **Fire Alarm Light Control**: Turns lights on/off when smoke is detected.  
 
 2.3 User Characteristics  
-The target audience consists of homeowners with basic knowledge of home automation and Arduino systems. Users should be able to install and configure the system with minimal technical expertise.
+The target audience consists of homeowners.. Users should be able to install and configure the system with minimal technical expertise.
 
 2.4 Constraints  
-- The system will rely on the availability of power and internet connectivity (if remote access is required).
+- The system will rely on the availability of power.
 - Hardware components such as sensors must be properly calibrated for accurate detection.
 
 ---
@@ -55,7 +55,6 @@ The target audience consists of homeowners with basic knowledge of home automati
 
 3.2 Non-Functional Requirements  
 - The system should respond to sensor inputs within 1 second.
-- The system should have a low power consumption mode.
 - The system should be user-friendly and easy to configure.
 
 3.3 External Interface Requirements  
