@@ -11,7 +11,6 @@ The system will provide automated control over home lighting based on ambient li
 1.3 Definitions, Acronyms, and Abbreviations  
 - **Arduino** – A microcontroller platform used to control the system.  
 - **PIR Sensor** – Passive Infrared Sensor used for motion detection.  
-- **RTC** – Real-Time Clock module for tracking time.  
 - **Fire Sensor** – A sensor used to detect smoke or fire.  
 
 1.4 References  
@@ -33,7 +32,8 @@ The system will include the following functions:
 - **Light Dimmer**: Adjusts light brightness based on ambient light.  
 - **Light Controller**: Controls lights based on the time of day.  
 - **Fire Alarm**: Triggers an alarm when smoke is detected.  
-- **Fire Alarm Light Control**: Turns lights on/off when smoke is detected.  
+- **Fire Alarm Light Control**: Turns lights on/off when smoke is detected.
+- **Status Messages**: Output status messages on LCD display.
 
 2.3 User Characteristics  
 The target audience consists of homeowners.. Users should be able to install and configure the system with minimal technical expertise.
@@ -52,6 +52,7 @@ The target audience consists of homeowners.. Users should be able to install and
 - The system shall control lights based on time of day.
 - The system shall trigger an alarm when smoke is detected.
 - The system shall control lights in case of a fire alarm.
+- The system shall output status messages on LCD display.
 
 3.2 Non-Functional Requirements  
 - The system should respond to sensor inputs within 1 second.
@@ -59,7 +60,7 @@ The target audience consists of homeowners.. Users should be able to install and
 
 3.3 External Interface Requirements  
 - **User Interface**: Simple status updates on a LCD from the system.
-- **Hardware Interfaces**: Arduino microcontroller, PIR sensor, fire sensor, RTC module, LED lights, and buzzer.
+- **Hardware Interfaces**: Arduino microcontroller, PIR sensor, fire sensor, LED lights, and buzzer.
 
 3.4 System Features  
 - Real-time light control based on environmental conditions.
