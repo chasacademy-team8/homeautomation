@@ -1,0 +1,16 @@
+// pin configuration
+#define LED_PIN 3
+
+// WiFi credentials for the project
+#define WIFI_SSID "my_wifi_network"
+#define WIFI_PASSWORD "my_wifi_password"
+
+// MQTT broker credentials
+#define MQTT_SERVER "mqtt.example.com"
+#define MQTT_PORT 1883
+#define MQTT_USER "mqtt_user"
+#define MQTT_PASSWORD "mqtt_password"
+
+// MQTT topic for publishing and subscribing
+#define MQTT_TOPIC_LIGHT_1 "home/light/1"
+#define MQTT_TOPIC_LIGHT_2 "home/light/2"
