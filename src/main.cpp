@@ -1,60 +1,62 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <pubsubclient.h>
+#include <WiFiS3.h>
+#include <PubSubClient.h>
+#include "config.h"
 
-const uint8_t LED_PIN = 3;
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
 
-// WiFi credentials (move to a config file)
-const char *ssid = "";
-const char *password = "";
-
-// MQTT broker (move to a config file)
-const char *mqtt_server = "test.mosquitto.org";
-const uint8_t mqtt_port = 1883;
-//const char *mqtt_user = "chas";
-//const char *mqtt_password = "chas1234";
-//const char* mqtt_topic = "home/automation";
+const char* mqtt_server = MQTT_SERVER;
+const int mqtt_port = MQTT_PORT;
 
 WiFiClient wifi;
 PubSubClient mqtt(wifi);
 
-void setup()
+void ledState(uint8_t ledPin, uint8_t state)
 {
-    Serial.begin(9600);
-    pinMode(LED_PIN, OUTPUT);
-
-    analogWrite(LED_PIN, 255);
-
-    Serial.print("Connecting to ");
-    Serial.println(ssid);
-    WiFi.begin(ssid, password);
-
-    while (WiFi.status() != WL_CONNECTED)
+    if (state == 1)
     {
-        delay(1000);
-        Serial.print(".");
+        //Serial.println("LED ON"); // debug
+        digitalWrite(ledPin, 1);
     }
+    else
+    {
+        //Serial.println("LED OFF"); // debug
+        digitalWrite(ledPin, 0);
+    }
+}
 
+void mqttCallback(char* topic, byte* payload, unsigned int length)
+{
+    Serial.print("Message arrived [");
+    Serial.print(topic);
+    Serial.print("] ");
+
+    for (int i = 0; i < length; i++)
+    {
+        Serial.print((char)payload[i]);
+    }
     Serial.println();
-    Serial.print("Connected to ");
-    Serial.println(ssid);
 
-    if (wifi.connect("www.fldc.se", 80)) {
-        Serial.println("Connection to test successful");
-    } else {
-        Serial.println("Connection to test failed");
-        Serial.print("WiFi status: ");
-        Serial.println(WiFi.status());
+    uint8_t state = payload[0] == '1' ? HIGH : LOW;
+
+    if (strcmp(topic, MQTT_TOPIC_LIGHT_1) == 0)
+    {
+        ledState(LED_PIN, state);
     }
+}
 
-    mqtt.setServer(mqtt_server, mqtt_port);
-    while (!mqtt.connected())
+void mqttReconnect()
+{
+    uint8_t timeout = 0;
+
+    while (!mqtt.connected() && timeout < 5)
     {
         Serial.print("Attempting MQTT connection...");
         if (mqtt.connect("ArduinoClient"))
         {
             Serial.println("connected");
-            //mqtt.subscribe(mqtt_topic);
+            mqtt.subscribe(MQTT_TOPIC_LIGHT_1);
         }
         else
         {
@@ -65,24 +67,43 @@ void setup()
     }
 }
 
+void setup()
+{
+    Serial.begin(9600);
+    pinMode(LED_PIN, OUTPUT);
+
+    // Initialize WiFi
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(1000);
+        Serial.print(".");
+    }
+
+    Serial.print("Connected to ");
+    Serial.println(ssid);
+
+    // Initialize MQTT
+    mqtt.setServer(mqtt_server, mqtt_port);
+    mqtt.setCallback(mqttCallback);
+
+    mqttReconnect();
+
+    if(mqtt.connected())
+    {
+        // Set the initial states on broker if the device is connected
+        mqtt.publish(MQTT_TOPIC_LIGHT_1, 0);
+    }
+}
+
 void loop()
 {
     if (!mqtt.connected())
     {
-        while (!mqtt.connected())
-        {
-            Serial.print("Reconnecting to MQTT...");
-            if (mqtt.connect("ArduinoClient"))
-            {
-                Serial.println("connected");
-            }
-            else
-            {
-                Serial.print("failed, rc=");
-                Serial.print(mqtt.state());
-                delay(2000);
-            }
-        }
+        mqttReconnect();
     }
     mqtt.loop();
 }
