@@ -39,3 +39,5 @@
 
 # VScode
 .vscode
+
+src/config.h
