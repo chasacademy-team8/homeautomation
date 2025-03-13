@@ -40,3 +40,6 @@
 # VScode
 .vscode
 
+# Credentials
+src/credentials.h
+
