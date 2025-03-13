@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <WiFiS3.h>
 #include <LiquidCrystal.h>
+#include <Wire.h>
 #include "config.h"
 
 void ledControl(uint8_t ledPin, uint8_t state)
