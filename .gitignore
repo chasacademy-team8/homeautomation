@@ -40,5 +40,3 @@
 # VScode
 .vscode
 
-# Ignore config files
-src/config.h
