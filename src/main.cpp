@@ -11,9 +11,9 @@ void ledControl(uint8_t ledPin, uint8_t state)
     analogWrite(ledPin, state);
 }
 
-void lcdControl(LiquidCrystal lcd, uint8_t row, uint8_t col, String message)
+void lcdControl(LiquidCrystal lcd, uint8_t col, uint8_t row, String message)
 {
-    lcd.setCursor(row, col);
+    lcd.setCursor(col, row);
     lcd.print(message);
 }
 
