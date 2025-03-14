@@ -14,6 +14,30 @@ It uses an Arduino microcontroller to interface with these devices.
   * LiquidCrystal
   * NTPClient
 
+### Installation:
+
+#### From Release
+1. Download the latest firmware release from the [Releases](https://github.com/orgs/chasacademy-team8/releases) page.
+2. Connect your Arduino to your computer.
+3. Use the Arduino IDE or PlatformIO to upload the firmware to your Arduino.
+
+#### From Source
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/orgs/chasacademy-team8/homeautomation.git
+    ```
+2. Open the project in Visual Studio Code.
+3. Ensure you have the PlatformIO extension installed.
+4. Open the PlatformIO Home tab in Visual Studio Code.
+5. Connect your Arduino to your computer.
+6. Build and upload the firmware using the PlatformIO extension:
+    1. Click on the PlatformIO icon in the sidebar.
+    2. Select "Build" to compile the project.
+    3. Select "Upload" to upload the firmware to your Arduino.
+
+## Latest Release
+You can download the latest release from the [Releases](https://github.com/orgs/chasacademy-team8/releases) page.
+
 ## Documentation
 - [Project Idea](docs/idea.md)
 - [SRS](docs/SRS.md)
