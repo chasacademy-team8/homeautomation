@@ -3,7 +3,7 @@
 #include <WiFiUdp.h>
 #include <LiquidCrystal.h>
 #include <Wire.h>
-#include <NtpClient.h>
+#include <NTPClient.h>
 #include "config.h"
 
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
