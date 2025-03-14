@@ -1,45 +1,27 @@
 #include <Arduino.h>
-#include <WiFiS3.h>
-#include <LiquidCrystal.h>
-#include <Wire.h>
-#include "config.h"
 
-LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+int pirPin = 2; 
+int ledPin = 13; 
 
-void ledControl(uint8_t ledPin, uint8_t state)
-{
-    analogWrite(ledPin, state);
+void setup() {
+  pinMode(pirPin, INPUT);  
+  pinMode(ledPin, OUTPUT); 
+  Serial.begin(9600);     
 }
 
-void lcdControl(LiquidCrystal lcd, uint8_t col, uint8_t row, String message)
-{
-    lcd.setCursor(col, row);
-    lcd.print(message);
+void loop() {
+  readMotion();
 }
 
-void buzzerControl(uint8_t buzzerPin, uint8_t state)
+// Reads the motion from a Pir Sensor turning a led light either on or off
+void readMotion()
 {
-    analogWrite(buzzerPin, state);
-}
-
-void processLogic()
-{
-    lcdControl(lcd, 0, 0, "Example status");
-}
-
-void setup()
-{
-    Serial.begin(9600);
-
-    lcd.begin(16, 2);
-
-    pinMode(LED_PIN, OUTPUT);
-    pinMode(BUZZER_PIN, OUTPUT);
-}
-
-void loop()
-{
-    processLogic();
-
-    delay(1000);
+  delay(500); // just a small delay, can be removed
+  int motionDetected = digitalRead(pirPin); 
+  if (motionDetected == HIGH) { 
+    digitalWrite(ledPin, HIGH); 
+    Serial.println("Motion Detected!"); 
+  } else {  
+    digitalWrite(ledPin, LOW);  
+  }
 }
