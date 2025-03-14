@@ -27,6 +27,41 @@ void processLogic()
     lcdControl(lcd, 0, 0, "Example status");
 }
 
+void gasAlarm()
+{
+    float smokeLevel = analogRead(smokePin); // Read gas sensor value
+    Serial.print("Smoke Level: ");
+    Serial.println(smokeLevel); // Values for debugging
+
+    if (smokeLevel > smokeThreshold)
+    {
+        Serial.println(" Warning! Smoke detected!");
+        digitalWrite(buzzerPin, LOW);
+    }
+    else
+    {
+        Serial.println(" No Smoke Detected.");
+        digitalWrite(buzzerPin, HIGH);
+    }
+}
+
+void gasLight()
+{
+    float smokeLevel = analogRead(smokePin);
+
+    if (smokeLevel > smokeThreshold)
+    {
+        digitalWrite(ledPin, LOW);
+    }
+    else
+    {
+        digitalWrite(ledPin, HIGH);
+    }
+
+    delay(1000);
+}
+
+
 void setup()
 {
     Serial.begin(9600);
