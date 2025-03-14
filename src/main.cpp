@@ -12,6 +12,8 @@ WiFiClient client;
 WiFiUDP udpClient;
 NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
 
+const float smokeThreshold = 400.0;
+
 void ledControl(uint8_t ledPin, uint8_t state)
 {
     analogWrite(ledPin, state);
@@ -33,18 +35,21 @@ void wifiControl(const char* ssid, const char* password)
     Serial.print("Connecting to ");
     Serial.println(ssid);
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
         delay(1000);
     }
     Serial.print("Connected to ");
     Serial.println(ssid);
 }
 
-void setupNTP() {
+void setupNTP()
+{
     ntpClient.begin();
 }
 
-String getCurrentFormattedTime() {
+String getCurrentFormattedTime()
+{
     ntpClient.update();
     return ntpClient.getFormattedTime();
 }
@@ -70,33 +75,34 @@ void processLogic()
 
 void gasAlarm()
 {
-    float smokeLevel = analogRead(smokePin); // Read gas sensor value
+    float smokeLevel = analogRead(SMOKE_SENSOR_PIN); // Read gas sensor value
     Serial.print("Smoke Level: ");
     Serial.println(smokeLevel); // Values for debugging
 
     if (smokeLevel > smokeThreshold)
     {
         Serial.println(" Warning! Smoke detected!");
-        digitalWrite(buzzerPin, LOW);
+        buzzerControl(BUZZER_PIN, LOW);
+
     }
     else
     {
         Serial.println(" No Smoke Detected.");
-        digitalWrite(buzzerPin, HIGH);
+        buzzerControl(BUZZER_PIN, HIGH);
     }
 }
 
 void gasLight()
 {
-    float smokeLevel = analogRead(smokePin);
+    float smokeLevel = analogRead(SMOKE_SENSOR_PIN); // Read gas sensor value
 
     if (smokeLevel > smokeThreshold)
     {
-        digitalWrite(ledPin, LOW);
+        ledControl(LED_PIN, LOW);
     }
     else
     {
-        digitalWrite(ledPin, HIGH);
+        ledControl(LED_PIN, HIGH);
     }
 
     delay(1000);
