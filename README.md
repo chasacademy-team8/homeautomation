@@ -9,8 +9,8 @@
 ## Documentation
 - [Project Idea](docs/idea.md)
 - [SRS](docs/SRS.md)
-- [Roadmap](https://github.com/orgs/chasacademy-team8/projects/3/views/7?sortedBy%5Bdirection%5D=asc&sortedBy%5BcolumnId%5D=174871397)
-- [Circuit](https://www.tinkercad.com/things/2BIRUlRgJSR-home-automation-system?sharecode=CB0rbs8jnQo0wepwYxnte0_Uei58wCmuA0ZicQ_sXoc)
+- ![Screenshot 2025-03-14 102706](https://github.com/user-attachments/assets/cdefb79e-8c6d-4299-bb5a-58f3c1e635ae)
+- 
 
 ![Circuit breadboard](Circuit_breadboard.png)
 ![Circuit diagram](Circuit_diagram.png)
