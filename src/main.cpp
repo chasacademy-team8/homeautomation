@@ -17,6 +17,11 @@ void lcdControl(LiquidCrystal lcd, uint8_t col, uint8_t row, String message)
     lcd.print(message);
 }
 
+void buzzerControl(uint8_t buzzerPin, uint8_t state)
+{
+    analogWrite(buzzerPin, state);
+}
+
 void processLogic()
 {
     lcdControl(lcd, 0, 0, "Example status");
@@ -29,6 +34,7 @@ void setup()
     lcd.begin(16, 2);
 
     pinMode(LED_PIN, OUTPUT);
+    pinMode(BUZZER_PIN, OUTPUT);
 }
 
 void loop()
