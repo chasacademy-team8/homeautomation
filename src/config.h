@@ -3,6 +3,9 @@
 
 // pin configuration
 #define LED_PIN 3
+#define SMOKE_SENSOR_PIN 4
+#define BUZZER_PIN 5
+
 #define LCD_RS 7
 #define LCD_EN 8
 #define LCD_D4 9
