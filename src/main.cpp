@@ -1,16 +1,22 @@
 #include <Arduino.h>
-#include <WiFiS3.h>
-#include <WiFiUdp.h>
 #include <LiquidCrystal.h>
 #include <Wire.h>
-#include <NTPClient.h>
 #include "config.h"
+
+#if __has_include("wifi_settings.h")
+#include "wifi_settings.h"
+#include <WiFiS3.h>
+#include <WiFiUdp.h>
+#include <NTPClient.h>
+#endif
 
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
+#ifdef WIFI_ENABLED
 WiFiClient client;
 WiFiUDP udpClient;
 NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
+#endif
 
 const float smokeThreshold = 400.0;
 
@@ -30,6 +36,7 @@ void buzzerControl(uint8_t buzzerPin, uint8_t state)
     analogWrite(buzzerPin, state);
 }
 
+#ifdef WIFI_ENABLED
 void wifiControl(const char* ssid, const char* password)
 {
     Serial.print("Connecting to ");
@@ -53,24 +60,27 @@ String getCurrentFormattedTime()
     ntpClient.update();
     return ntpClient.getFormattedTime();
 }
+#endif
 
 void processLogic()
 {
     lcdControl(lcd, 0, 0, "Example status");
 
-#if WIFI_ENABLED
+#ifdef WIFI_ENABLED
     ntpClient.update();
     uint8_t currentHour = ntpClient.getHours();
 
-    if (currentHour == TURN_ON_HOUR) {
+    if (currentHour == TURN_ON_HOUR)
+    {
         ledControl(LED_PIN, HIGH);
         lcdControl(lcd, 0, 0, "LED ON");
-    } else if (currentHour == TURN_OFF_HOUR) {
+    }
+    else if (currentHour == TURN_OFF_HOUR)
+    {
         ledControl(LED_PIN, LOW);
         lcdControl(lcd, 0, 0, "LED OFF");
     }
 #endif
-
 }
 
 void gasAlarm()
@@ -118,8 +128,8 @@ void setup()
     pinMode(LED_PIN, OUTPUT);
     pinMode(BUZZER_PIN, OUTPUT);
 
-#if WIFI_ENABLED
-    wifiControl(client, WIFI_SSID, WIFI_PASSWORD);
+#ifdef WIFI_ENABLED
+    wifiControl(WIFI_SSID, WIFI_PASSWORD);
     setupNTP();
 #endif
 }
