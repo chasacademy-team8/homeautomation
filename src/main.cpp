@@ -22,7 +22,7 @@ const float smokeThreshold = 200.0;
 const int wifiAttempts = 3;
 
 void ledControl(uint8_t ledPin, int state);
-void lcdControl(LiquidCrystal lcd, uint8_t col, uint8_t row, uint8_t clear, String message);
+void lcdControl(uint8_t col, uint8_t row, String message, bool clear = false);
 void buzzerControl(uint8_t buzzerPin, int state);
 #ifdef WIFI_ENABLED
 void wifiControl(const char* ssid, const char* password);
@@ -30,7 +30,6 @@ void setupNTP();
 #endif
 void gasAlarm();
 void gasLight();
-void processLogic();
 
 void setup()
 {
@@ -46,7 +45,7 @@ void setup()
     setupNTP();
 #endif
 
-    lcdControl(lcd, 0, 0, 1, "Home Automation");
+    lcdControl(0, 0, "Home Automation", 1);
 }
 
 void loop()
@@ -60,12 +59,12 @@ void loop()
     if (currentHour == TURN_ON_HOUR)
     {
         ledControl(LED_PIN, 255);
-        lcdControl(lcd, 0, 0, 1, "LED ON");
+        lcdControl(0, 0, "LED ON", 1);
     }
     else if (currentHour == TURN_OFF_HOUR)
     {
         ledControl(LED_PIN, 0);
-        lcdControl(lcd, 0, 0, 1, "LED OFF");
+        lcdControl(0, 0, "LED OFF", 1);
     }
 #endif
         delay(1000);
@@ -76,7 +75,7 @@ void ledControl(uint8_t ledPin, int state)
     analogWrite(ledPin, state);
 }
 
-void lcdControl(LiquidCrystal& lcd, uint8_t col, uint8_t row, int clear, String message)
+void lcdControl(uint8_t col, uint8_t row, String message, bool clear)
 {
     if (clear)
     {
@@ -95,8 +94,8 @@ void buzzerControl(uint8_t buzzerPin, int state)
 void wifiControl(const char* ssid, const char* password)
 {
     Serial.print("Connecting to ");
-    lcdControl(lcd, 0, 0, 1, "Connecting to ");
-    lcdControl(lcd, 0, 1, 0, ssid);
+    lcdControl(0, 0, "Connecting to ", 1);
+    lcdControl(0, 1, ssid, 1);
     Serial.println(ssid);
 
     WiFi.begin(ssid, password);
@@ -108,10 +107,10 @@ void wifiControl(const char* ssid, const char* password)
     }
     if (WiFi.status() == WL_CONNECTED)
     {
-    Serial.print("Connected to ");
-    Serial.println(ssid);
-        lcdControl(lcd, 0, 0, 1, "Connected to ");
-        lcdControl(lcd, 0, 1, 0, ssid);
+        Serial.print("Connected to ");
+        Serial.println(ssid);
+        lcdControl(0, 0, "Connected to ", 1);
+        lcdControl(0, 1, ssid, 1);
     }
     else
     {
@@ -138,10 +137,10 @@ void gasAlarm()
         if (!alarmActive)
         {
             alarmActive = true;
-        buzzerControl(BUZZER_PIN, LOW);
+            buzzerControl(BUZZER_PIN, LOW);
             ledControl(LED_PIN, 255);
-            lcdControl(lcd, 0, 0, 1, "Smoke Detected");
-            lcdControl(lcd, 0, 1, 0, "Alarm ON");
+            lcdControl(0, 0, "Smoke Detected", 1);
+            lcdControl(0, 1, "Alarm ON", 1);
         }
 
         // Check if smoke level is still high after 5 seconds
@@ -159,8 +158,8 @@ void gasAlarm()
         Serial.println(" No Smoke Detected.");
         buzzerControl(BUZZER_PIN, HIGH);
         ledControl(LED_PIN, 0);
-        lcdControl(lcd, 0, 0, 1, "No Smoke Detected");
-        lcdControl(lcd, 0, 1, 0, "Alarm OFF");
+        lcdControl(0, 0, "No Smoke Detected", 1);
+        lcdControl(0, 1, "Alarm OFF", 1);
     }
 }
 
