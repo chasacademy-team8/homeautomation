@@ -41,5 +41,4 @@
 .vscode
 
 # Credentials
-src/credentials.h
-
+src/wifi_settings.h
