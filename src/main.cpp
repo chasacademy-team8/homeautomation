@@ -76,7 +76,7 @@ void ledControl(uint8_t ledPin, int state)
     analogWrite(ledPin, state);
 }
 
-void lcdControl(LiquidCrystal& lcd, uint8_t col, uint8_t row, String message)
+void lcdControl(LiquidCrystal& lcd, uint8_t col, uint8_t row, int clear, String message)
 {
     if (clear)
     {
