@@ -76,7 +76,7 @@ void ledControl(uint8_t ledPin, int state)
     analogWrite(ledPin, state);
 }
 
-void lcdControl(LiquidCrystal lcd, uint8_t col, uint8_t row, uint8_t clear, String message)
+void lcdControl(LiquidCrystal& lcd, uint8_t col, uint8_t row, String message)
 {
     if (clear)
     {
@@ -108,8 +108,8 @@ void wifiControl(const char* ssid, const char* password)
     }
     if (WiFi.status() == WL_CONNECTED)
     {
-        Serial.print("Connected to ");
-        Serial.println(ssid);
+    Serial.print("Connected to ");
+    Serial.println(ssid);
         lcdControl(lcd, 0, 0, 1, "Connected to ");
         lcdControl(lcd, 0, 1, 0, ssid);
     }
@@ -138,7 +138,7 @@ void gasAlarm()
         if (!alarmActive)
         {
             alarmActive = true;
-            buzzerControl(BUZZER_PIN, LOW);
+        buzzerControl(BUZZER_PIN, LOW);
             ledControl(LED_PIN, 255);
             lcdControl(lcd, 0, 0, 1, "Smoke Detected");
             lcdControl(lcd, 0, 1, 0, "Alarm ON");
@@ -151,7 +151,7 @@ void gasAlarm()
             smokeLevel = analogRead(SMOKE_SENSOR_PIN);
             Serial.print("warning! Smoke detected! ");
             Serial.println(smokeLevel);
-        }
+    }
     }
     else if (alarmActive)
     {
