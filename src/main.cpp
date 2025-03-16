@@ -95,7 +95,7 @@ void wifiControl(const char* ssid, const char* password)
 {
     Serial.print("Connecting to ");
     lcdControl(0, 0, "Connecting to ", 1);
-    lcdControl(0, 1, ssid, 1);
+    lcdControl(0, 1, ssid);
     Serial.println(ssid);
 
     WiFi.begin(ssid, password);
@@ -110,7 +110,7 @@ void wifiControl(const char* ssid, const char* password)
         Serial.print("Connected to ");
         Serial.println(ssid);
         lcdControl(0, 0, "Connected to ", 1);
-        lcdControl(0, 1, ssid, 1);
+        lcdControl(0, 1, ssid);
     }
     else
     {
@@ -140,7 +140,7 @@ void gasAlarm()
             buzzerControl(BUZZER_PIN, LOW);
             ledControl(LED_PIN, 255);
             lcdControl(0, 0, "Smoke Detected", 1);
-            lcdControl(0, 1, "Alarm ON", 1);
+            lcdControl(0, 1, "Alarm ON");
         }
 
         // Check if smoke level is still high after 5 seconds
@@ -159,7 +159,7 @@ void gasAlarm()
         buzzerControl(BUZZER_PIN, HIGH);
         ledControl(LED_PIN, 0);
         lcdControl(0, 0, "No Smoke Detected", 1);
-        lcdControl(0, 1, "Alarm OFF", 1);
+        lcdControl(0, 1, "Alarm OFF");
     }
 }
 
