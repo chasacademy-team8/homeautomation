@@ -22,6 +22,7 @@ NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
 
 const float smokeThreshold = 200.0;
 const int wifiAttempts = 3;
+bool alarmActive = false;
 
 void ledControl(uint8_t ledPin, int state);
 void lcdControl(uint8_t col, uint8_t row, String message, bool clear = false);
@@ -50,8 +51,6 @@ void setup()
     wifiControl(WIFI_SSID, WIFI_PASSWORD);
     setupNTP();
 #endif
-
-    lcdControl(0, 0, "Home Automation", 1);
 }
 
 void loop()
@@ -61,6 +60,11 @@ void loop()
 #ifdef WIFI_ENABLED
     ntpClient.update();
     uint8_t currentHour = ntpClient.getHours();
+    if (!alarmActive)
+    {
+        lcdControl(0, 0, "Home Automation", 1);
+        lcdControl(0, 1, "Time: " + ntpClient.getFormattedTime());
+    }
 
     if (currentHour == TURN_ON_HOUR)
     {
@@ -73,7 +77,7 @@ void loop()
         lcdControl(0, 0, "LED OFF", 1);
     }
 #endif
-        delay(1000);
+    delay(1000);
 }
 
 void ledControl(uint8_t ledPin, int state)
@@ -128,11 +132,12 @@ void setupNTP()
 {
     ntpClient.begin();
 }
+
 #endif
 
 void gasAlarm()
 {
-    static bool alarmActive = false;
+    //static bool alarmActive = false;
     static unsigned long lastCheckTime = 0;
     float smokeLevel = analogRead(SMOKE_SENSOR_PIN); // Read gas sensor value
     Serial.print("Smoke Level: ");
@@ -166,6 +171,7 @@ void gasAlarm()
         ledControl(LED_PIN, 0);
         lcdControl(0, 0, "No Smoke Detected", 1);
         lcdControl(0, 1, "Alarm OFF");
+        delay(1000);
     }
 }
 
