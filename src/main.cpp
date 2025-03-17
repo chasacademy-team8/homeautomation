@@ -21,12 +21,12 @@ NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
 #endif
 
 const float smokeThreshold = 200.0;
-const int wifiAttempts = 3;
+const uint8_t wifiAttempts = 3;
 bool alarmActive = false;
 
 void ledControl(uint8_t ledPin, int state);
 void lcdControl(uint8_t col, uint8_t row, String message, bool clear = false);
-void buzzerControl(uint8_t buzzerPin, int state);
+void buzzerControl(uint8_t buzzerPin, uint8_t state);
 #ifdef WIFI_ENABLED
 void wifiControl(const char* ssid, const char* password);
 void setupNTP();
@@ -80,7 +80,7 @@ void loop()
     delay(1000);
 }
 
-void ledControl(uint8_t ledPin, int state)
+void ledControl(uint8_t ledPin, uint8_t state)
 {
     analogWrite(ledPin, state);
 }
