@@ -136,7 +136,7 @@ void setupNTP()
 
 void gasAlarm()
 {
-    //static bool alarmActive = false;
+    static bool alarmActive = false;
     //static unsigned long lastCheckTime = 0;
     float smokeLevel = analogRead(SMOKE_SENSOR_PIN);
     Serial.print("Smoke Level: ");
@@ -156,7 +156,7 @@ void gasAlarm()
     else if (alarmActive)
     {
         alarmActive = false;
-        Serial.println(" No Smoke Detected.");
+        Serial.println("No Smoke Detected.");
         buzzerControl(BUZZER_PIN, HIGH);
         ledControl(LED_PIN, 0);
         lcdControl(0, 0, "No Smoke Detected", 1);
