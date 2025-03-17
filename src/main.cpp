@@ -24,7 +24,7 @@ const float smokeThreshold = 200.0;
 const uint8_t wifiAttempts = 3;
 bool alarmActive = false;
 
-void ledControl(uint8_t ledPin, int state);
+void ledControl(uint8_t ledPin, uint8_t state);
 void lcdControl(uint8_t col, uint8_t row, String message, bool clear = false);
 void buzzerControl(uint8_t buzzerPin, uint8_t state);
 #ifdef WIFI_ENABLED
@@ -161,7 +161,7 @@ void gasAlarm()
             smokeLevel = analogRead(SMOKE_SENSOR_PIN);
             Serial.print("warning! Smoke detected! ");
             Serial.println(smokeLevel);
-    }
+        }
     }
     else if (alarmActive)
     {
