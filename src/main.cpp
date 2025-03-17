@@ -132,16 +132,15 @@ void setupNTP()
 {
     ntpClient.begin();
 }
-
 #endif
 
 void gasAlarm()
 {
     //static bool alarmActive = false;
-    static unsigned long lastCheckTime = 0;
-    float smokeLevel = analogRead(SMOKE_SENSOR_PIN); // Read gas sensor value
+    //static unsigned long lastCheckTime = 0;
+    float smokeLevel = analogRead(SMOKE_SENSOR_PIN);
     Serial.print("Smoke Level: ");
-    Serial.println(smokeLevel); // Values for debugging
+    Serial.println(smokeLevel);
 
     if (smokeLevel > smokeThreshold)
     {
@@ -152,15 +151,6 @@ void gasAlarm()
             ledControl(LED_PIN, 255);
             lcdControl(0, 0, "Smoke Detected", 1);
             lcdControl(0, 1, "Alarm ON");
-        }
-
-        // Check if smoke level is still high after 5 seconds
-        if (millis() - lastCheckTime >= 5000)
-        {
-            lastCheckTime = millis();
-            smokeLevel = analogRead(SMOKE_SENSOR_PIN);
-            Serial.print("warning! Smoke detected! ");
-            Serial.println(smokeLevel);
         }
     }
     else if (alarmActive)
@@ -177,7 +167,7 @@ void gasAlarm()
 
 void gasLight()
 {
-    float smokeLevel = analogRead(SMOKE_SENSOR_PIN); // Read gas sensor value
+    float smokeLevel = analogRead(SMOKE_SENSOR_PIN);
 
     if (smokeLevel > smokeThreshold)
     {
