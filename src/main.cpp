@@ -1,181 +1,83 @@
 #include <Arduino.h>
-#include <Arduino_LED_Matrix.h>
-#include <LiquidCrystal.h>
-#include <Wire.h>
-#include "config.h"
-
-#if __has_include("wifi_settings.h")
-#include "wifi_settings.h"
-#include <WiFiS3.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h>
-#endif
 
-LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
-ArduinoLEDMatrix matrix;
+#include "buzzer.h"
+#include "config.h"
+#include "display.h"
+#include "led.h"
+#include "matrix.h"
+#include "smoke_sensor.h"
 
-#ifdef WIFI_ENABLED
+#include "wifi_settings.h"
+#include "wifi_handler.h"
+
 WiFiClient client;
 WiFiUDP udpClient;
 NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
-#endif
 
-const float smokeThreshold = 200.0;
-const uint8_t wifiAttempts = 3;
-bool alarmActive = false;
-
-void ledControl(uint8_t ledPin, uint8_t state);
-void lcdControl(uint8_t col, uint8_t row, String message, bool clear = false);
-void buzzerControl(uint8_t buzzerPin, uint8_t state);
-#ifdef WIFI_ENABLED
-void wifiControl(const char* ssid, const char* password);
-void setupNTP();
-#endif
-void gasAlarm();
-void gasLight();
+bool smokeAlarm = false;
+uint8_t ambientLight = 0;
+long lightBrightness = 0;
+uint8_t currentHour = 0;
 
 void setup()
 {
     Serial.begin(9600);
 
-    matrix.loadSequence(LEDMATRIX_ANIMATION_HEARTBEAT_LINE);
-    matrix.begin();
-    matrix.play(true);
+    setupWifi(WIFI_SSID, WIFI_PASSWORD);
 
-    lcd.begin(16, 2);
-
-    pinMode(LED_PIN, OUTPUT);
-    pinMode(BUZZER_PIN, OUTPUT);
-
-#ifdef WIFI_ENABLED
-    wifiControl(WIFI_SSID, WIFI_PASSWORD);
-    setupNTP();
-#endif
+    initDisplay();
+    initDisplay();
+    initMatrix();
+    initBuzzer();
+    initLED();
+    initSmokeSensor();
 }
 
 void loop()
 {
-    gasAlarm();
-
-#ifdef WIFI_ENABLED
     ntpClient.update();
-    uint8_t currentHour = ntpClient.getHours();
-    if (!alarmActive)
+    String getCurrentTime = ntpClient.getFormattedTime();
+
+    if(!smokeAlarm)
     {
-        lcdControl(0, 0, "Home Automation", 1);
-        lcdControl(0, 1, "Time: " + ntpClient.getFormattedTime());
+        showHomeScreen(getCurrentTime);
     }
 
-    if (currentHour == TURN_ON_HOUR)
+    if (isSmokeDetected())
     {
-        ledControl(LED_PIN, 255);
-        lcdControl(0, 0, "LED ON", 1);
-    }
-    else if (currentHour == TURN_OFF_HOUR)
-    {
-        ledControl(LED_PIN, 0);
-        lcdControl(0, 0, "LED OFF", 1);
-    }
-#endif
-    delay(1000);
-}
-
-void ledControl(uint8_t ledPin, uint8_t state)
-{
-    analogWrite(ledPin, state);
-}
-
-void lcdControl(uint8_t col, uint8_t row, String message, bool clear)
-{
-    if (clear)
-    {
-        lcd.clear();
-    }
-    lcd.setCursor(col, row);
-    lcd.print(message);
-}
-
-void buzzerControl(uint8_t buzzerPin, int state)
-{
-    analogWrite(buzzerPin, state);
-}
-
-#ifdef WIFI_ENABLED
-void wifiControl(const char* ssid, const char* password)
-{
-    Serial.print("Connecting to ");
-    lcdControl(0, 0, "Connecting to ", 1);
-    lcdControl(0, 1, ssid);
-    Serial.println(ssid);
-
-    WiFi.begin(ssid, password);
-    uint8_t attempts = 0;
-    while (WiFi.status() != WL_CONNECTED && attempts < wifiAttempts)
-    {
-        delay(1000);
-        attempts++;
-    }
-    if (WiFi.status() == WL_CONNECTED)
-    {
-        Serial.print("Connected to ");
-        Serial.println(ssid);
-        lcdControl(0, 0, "Connected to ", 1);
-        lcdControl(0, 1, ssid);
-    }
-    else
-    {
-        Serial.println("Failed to connect to WiFi");
-    }
-}
-
-void setupNTP()
-{
-    ntpClient.begin();
-}
-#endif
-
-void gasAlarm()
-{
-    static bool alarmActive = false;
-    //static unsigned long lastCheckTime = 0;
-    float smokeLevel = analogRead(SMOKE_SENSOR_PIN);
-    Serial.print("Smoke Level: ");
-    Serial.println(smokeLevel);
-
-    if (smokeLevel > smokeThreshold)
-    {
-        if (!alarmActive)
+        if (!smokeAlarm)
         {
-            alarmActive = true;
-            buzzerControl(BUZZER_PIN, LOW);
-            ledControl(LED_PIN, 255);
-            lcdControl(0, 0, "Smoke Detected", 1);
-            lcdControl(0, 1, "Alarm ON");
+            Serial.println("Smoke detected!");
+            smokeAlarm = true;
+            showStatusMessage("SMOKE DETECTED!");
         }
+        controlLED(255);
+        soundBuzzer();
     }
-    else if (alarmActive)
+    else if (smokeAlarm)
     {
-        alarmActive = false;
-        Serial.println("No Smoke Detected.");
-        buzzerControl(BUZZER_PIN, HIGH);
-        ledControl(LED_PIN, 0);
-        lcdControl(0, 0, "No Smoke Detected", 1);
-        lcdControl(0, 1, "Alarm OFF");
+        Serial.println("Smoke cleared!");
+        smokeAlarm = false;
+    }
+
+    if (smokeAlarm)
+    {
         delay(1000);
+        return;
     }
-}
 
-void gasLight()
-{
-    float smokeLevel = analogRead(SMOKE_SENSOR_PIN);
-
-    if (smokeLevel > smokeThreshold)
+    currentHour = ntpClient.getHours();
+    if (currentHour >= TURN_ON_HOUR && currentHour < TURN_OFF_HOUR)
     {
-        ledControl(LED_PIN, 0);
+        ambientLight = analogRead(PHOTORESISTOR_PIN);
+        lightBrightness = map(ambientLight, 0, 1023, 0, 255);
+        controlLED(lightBrightness);
     }
     else
     {
-        ledControl(LED_PIN, 255);
+        controlLED(0);
     }
 
     delay(1000);
