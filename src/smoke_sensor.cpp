@@ -4,10 +4,10 @@
 
 void initSmokeSensor()
 {
-    pinMode(SMOKE_SENSOR_PIN, INPUT);
+    pinMode(SMOKE_SENSOR_PIN_A, INPUT);
 }
 
 bool isSmokeDetected()
 {
-    return analogRead(SMOKE_SENSOR_PIN) > SMOKE_THRESHOLD;
+    return analogRead(SMOKE_SENSOR_PIN_A) > SMOKE_THRESHOLD;
 }

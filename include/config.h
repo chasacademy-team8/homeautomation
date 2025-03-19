@@ -5,7 +5,8 @@
 #define LED_PIN_1 3
 #define LED_PIN_2 6
 
-#define SMOKE_SENSOR_PIN 4
+#define SMOKE_SENSOR_PIN_D 4
+#define SMOKE_SENSOR_PIN_A A1
 #define BUZZER_PIN 5
 #define PHOTORESISTOR_PIN A0
 
@@ -19,7 +20,7 @@
 #define TURN_ON_HOUR 8
 #define TURN_OFF_HOUR 22
 
-#define SMOKE_THRESHOLD 300
+#define SMOKE_THRESHOLD 500
 
 #define WIFI_ATTEMPTS 5
 
