@@ -7,6 +7,12 @@ It uses an Arduino microcontroller to interface with these devices.
 
 ## Features
 
+* **Smoke Detection**: Detects smoke and triggers an alarm with a buzzer and LED.
+* **Light Control**: Automatically adjusts light brightness based on ambient light levels.
+* **Time-Based Light Control**: Turns lights on and off based on the time of day.
+* **Status Display**: Displays system status and messages on an LCD screen.
+* **WiFi Connectivity**: Connects to a WiFi network for time synchronization using an NTP server.
+
 ## Getting Started
 
 ### **Prerequisites:**
