@@ -72,7 +72,8 @@ void loop()
     if (currentHour >= TURN_ON_HOUR && currentHour < TURN_OFF_HOUR)
     {
         ambientLight = analogRead(PHOTORESISTOR_PIN);
-        lightBrightness = map(ambientLight, 0, 1023, 255, 0);
+        float normalizedLight = ambientLight / 1023.0;
+        lightBrightness = 255 * pow(2.0 - normalizedLight, 2); // Borde vara runt 1, ökar till 2 för tydligare skillnad
         controlLED(lightBrightness);
     }
     else
