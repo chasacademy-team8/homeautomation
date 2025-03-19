@@ -15,4 +15,4 @@
 #define MQTT_USER "mqtt_user"
 #define MQTT_PASSWORD "mqtt_password"
 
-#endif // CREDENTIALS_H
+#endif

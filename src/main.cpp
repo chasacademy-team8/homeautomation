@@ -16,10 +16,11 @@ WiFiClient client;
 WiFiUDP udpClient;
 NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
 
-bool smokeAlarm = false;
-uint8_t ambientLight = 0;
-long lightBrightness = 0;
+uint16_t ambientLight = 0;
+uint8_t lightBrightness = 0;
+uint8_t previousLightBrightness = 0;
 uint8_t currentHour = 0;
+bool smokeAlarm = false;
 
 void setup()
 {
@@ -27,7 +28,6 @@ void setup()
 
     setupWifi(WIFI_SSID, WIFI_PASSWORD);
 
-    initDisplay();
     initDisplay();
     initMatrix();
     initBuzzer();
@@ -40,7 +40,7 @@ void loop()
     ntpClient.update();
     String getCurrentTime = ntpClient.getFormattedTime();
 
-    if(!smokeAlarm)
+    if (!smokeAlarm)
     {
         showHomeScreen(getCurrentTime);
     }
@@ -72,9 +72,48 @@ void loop()
     if (currentHour >= TURN_ON_HOUR && currentHour < TURN_OFF_HOUR)
     {
         ambientLight = analogRead(PHOTORESISTOR_PIN);
-        float normalizedLight = ambientLight / 1023.0;
-        lightBrightness = 255 * pow(2.0 - normalizedLight, 2); // Borde vara runt 1, ökar till 2 för tydligare skillnad
-        controlLED(lightBrightness);
+
+        //Serial.print("Diode value: ");
+        //Serial.println(ambientLight);
+
+        if (ambientLight < 256)
+        {
+            lightBrightness = LIGHT_HIGH;
+            if (lightBrightness != previousLightBrightness)
+            {
+                showStatusMessage("HIGH LIGHT");
+            }
+        }
+        else if (ambientLight < 512)
+        {
+            lightBrightness = LIGHT_MEDIUM;
+            if (lightBrightness != previousLightBrightness)
+            {
+                showStatusMessage("MEDIUM LIGHT");
+            }
+        }
+        else if (ambientLight < 768)
+        {
+            lightBrightness = LIGHT_LOW;
+            if (lightBrightness != previousLightBrightness)
+            {
+                showStatusMessage("LOW LIGHT");
+            }
+        }
+        else
+        {
+            lightBrightness = LIGHT_OFF;
+            if (lightBrightness != previousLightBrightness)
+            {
+                showStatusMessage("LIGHT OFF");
+            }
+        }
+
+        if (lightBrightness != previousLightBrightness)
+        {
+            previousLightBrightness = lightBrightness;
+            controlLED(lightBrightness);
+        }
     }
     else
     {
