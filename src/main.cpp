@@ -72,7 +72,7 @@ void loop()
     if (currentHour >= TURN_ON_HOUR && currentHour < TURN_OFF_HOUR)
     {
         ambientLight = analogRead(PHOTORESISTOR_PIN);
-        lightBrightness = map(ambientLight, 0, 1023, 0, 255);
+        lightBrightness = map(ambientLight, 0, 1023, 255, 0);
         controlLED(lightBrightness);
     }
     else
