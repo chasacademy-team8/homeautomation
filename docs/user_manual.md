@@ -28,7 +28,7 @@
 1. Connect the smoke sensor to the Arduino's analog and digital pins as specified in `config.h`.
 2. Connect the buzzer to the pin defined as `BUZZER_PIN`.
 3. Connect the photoresistor to the pin defined as `PHOTORESISTOR_PIN`.
-4. Connect the LEDs to the pins defined as `LED_PIN_1` and `LED_PIN_2`.
+4. Connect the LEDs to the pins defined as `LED_PIN_1`.
 5. Connect the LCD display to the pins defined in the `config.h` file.
 
 ### Software Setup
