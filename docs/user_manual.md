@@ -65,7 +65,7 @@
 ### Smoke Alarm Not Triggering
 
 - Ensure the smoke sensor is properly connected and calibrated.
-- Check the `SMOKE_SENSOR_PIN_A` and `SMOKE_SENSOR_PIN_D` connections.
+- Check the `SMOKE_SENSOR_PIN_A` connection.
 
 ### Lights Not Adjusting
 
@@ -75,4 +75,3 @@
 ### WiFi Not Connecting
 
 - Ensure the WiFi credentials in `wifi_settings.h` are correct.
-- Check the WiFi module connections.
