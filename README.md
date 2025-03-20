@@ -27,7 +27,7 @@ It uses an Arduino microcontroller to interface with these devices.
 
 #### From Release
 
-1. Download the latest firmware release from the [Releases](https://github.com/orgs/chasacademy-team8/releases) page.
+1. Download the latest firmware release from the [Releases](https://github.com/chasacademy-team8/homeautomation/releases/) page.
 2. Connect your Arduino to your computer.
 3. Use the Arduino IDE or PlatformIO to upload the firmware to your Arduino.
 
@@ -50,7 +50,7 @@ It uses an Arduino microcontroller to interface with these devices.
 
 ## Latest Release
 
-You can download the latest release from the [Releases](https://github.com/orgs/chasacademy-team8/releases) page.
+You can download the latest release from the [Releases](https://github.com/chasacademy-team8/homeautomation/releases/) page.
 
 ## Documentation
 
