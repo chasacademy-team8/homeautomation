@@ -60,8 +60,8 @@ You can download the latest release from the [Releases](https://github.com/chasa
 * [Milestones](https://github.com/chasacademy-team8/homeautomation/milestones)
 * [Circuit](https://www.tinkercad.com/things/3Qoy4BCUble-viktor-home-automation-system/editel?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard%2Fdesigns%2Fcircuits)
 
-![Circuit breadboard](docs/Circuit_breadboard.png)
-![Circuit diagram](docs/Circuit_diagram.png)
+![Circuit breadboard](docs/Circuit_TinkerCAD.png)
+![Circuit diagram](docs/Circuit_Diagram.png)
 
 ### Code Description
 
