@@ -18,7 +18,7 @@ NTPClient ntpClient(udpClient, NTP_SERVER, 3600.0);
 
 uint16_t ambientLight = 0;
 uint8_t lightBrightness = 0;
-uint8_t previousLightBrightness = 0;
+long previousLightBrightness = -1;
 uint8_t currentHour = 0;
 bool smokeAlarm = false;
 
@@ -44,6 +44,11 @@ void loop()
     {
         showHomeScreen(getCurrentTime);
     }
+
+#if DEBUG
+    Serial.print("Smoke sensor value: ");
+    Serial.println(analogRead(SMOKE_SENSOR_PIN_A));
+#endif
 
     if (isSmokeDetected())
     {
@@ -73,14 +78,17 @@ void loop()
     {
         ambientLight = analogRead(PHOTORESISTOR_PIN);
 
-        //Serial.print("Diode value: ");
-        //Serial.println(ambientLight);
+#if DEBUG
+        Serial.print("Diode sensor value: ");
+        Serial.println(ambientLight);
+#endif
 
         if (ambientLight < 256)
         {
             lightBrightness = LIGHT_HIGH;
             if (lightBrightness != previousLightBrightness)
             {
+                Serial.println("HIGH LIGHT");
                 showStatusMessage("HIGH LIGHT");
             }
         }
@@ -89,6 +97,7 @@ void loop()
             lightBrightness = LIGHT_MEDIUM;
             if (lightBrightness != previousLightBrightness)
             {
+                Serial.println("MEDIUM LIGHT");
                 showStatusMessage("MEDIUM LIGHT");
             }
         }
@@ -97,6 +106,7 @@ void loop()
             lightBrightness = LIGHT_LOW;
             if (lightBrightness != previousLightBrightness)
             {
+                Serial.println("LOW LIGHT");
                 showStatusMessage("LOW LIGHT");
             }
         }
@@ -105,6 +115,7 @@ void loop()
             lightBrightness = LIGHT_OFF;
             if (lightBrightness != previousLightBrightness)
             {
+                Serial.println("LIGHT OFF");
                 showStatusMessage("LIGHT OFF");
             }
         }

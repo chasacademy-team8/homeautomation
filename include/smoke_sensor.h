@@ -6,5 +6,6 @@
 void initSmokeSensor();
 bool isSmokeDetected();
 void smokeInterrupt();
+uint16_t getSmokeValue();
 
 #endif
