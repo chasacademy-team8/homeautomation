@@ -63,7 +63,7 @@ You can download the latest release from the [Releases](https://github.com/chasa
 ![Circuit breadboard](docs/Circuit_breadboard.png)
 ![Circuit diagram](docs/Circuit_diagram.png)
 
-Code Description
+### Code Description
 
 Below is a breakdown of the various header files and the functions they contain. Each header is designed to modularize specific components of the system for ease of development and maintenance.
 
