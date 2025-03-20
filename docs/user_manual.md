@@ -2,7 +2,7 @@
 
 ## Hardware Requirements
 
-- Arduino microcontroller
+- Arduino R4 WiFi microcontroller
 - Smoke sensor
 - Buzzer
 - LEDs
