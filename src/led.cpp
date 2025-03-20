@@ -11,4 +11,8 @@ void initLED()
 void controlLED(uint8_t brightness)
 {
     analogWrite(LED_PIN_1, brightness);
+#if DEBUG
+    Serial.print("LED 1 brightness: ");
+    Serial.println(brightness);
+#endif
 }

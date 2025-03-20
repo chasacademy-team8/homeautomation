@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define DEBUG 0
+
 // Pin configuration
 #define LED_PIN_1 3
 #define LED_PIN_2 6

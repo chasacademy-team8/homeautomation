@@ -14,11 +14,16 @@ void initSmokeSensor()
 bool isSmokeDetected()
 {
     //return analogRead(SMOKE_SENSOR_PIN_A) > SMOKE_THRESHOLD;
-    return digitalRead(SMOKE_SENSOR_PIN_D) == HIGH;
+    return digitalRead(SMOKE_SENSOR_PIN_D) == LOW;
 }
 
 void smokeInterrupt()
 {
     Serial.println("Smoke interrupt detected");
     //smokeAlarm = true;
+}
+
+uint16_t getSmokeValue()
+{
+    return analogRead(SMOKE_SENSOR_PIN_A);
 }
