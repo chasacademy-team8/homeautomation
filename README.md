@@ -54,6 +54,7 @@ You can download the latest release from the [Releases](https://github.com/chasa
 
 ## Documentation
 
+* [User manual](docs/user_manual.md)
 * [Project Idea](docs/idea.md)
 * [SRS](docs/SRS.md)
 * [Roadmap](https://github.com/orgs/chasacademy-team8/projects/3/views/7?sortedBy%5Bdirection%5D=asc&sortedBy%5BcolumnId%5D=174871397)
