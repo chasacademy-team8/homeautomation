@@ -58,7 +58,7 @@ You can download the latest release from the [Releases](https://github.com/chasa
 * [SRS](docs/SRS.md)
 * [Roadmap](https://github.com/orgs/chasacademy-team8/projects/3/views/7?sortedBy%5Bdirection%5D=asc&sortedBy%5BcolumnId%5D=174871397)
 * [Milestones](https://github.com/chasacademy-team8/homeautomation/milestones)
-* [Circuit](https://www.tinkercad.com/things/2BIRUlRgJSR-home-automation-system?sharecode=CB0rbs8jnQo0wepwYxnte0_Uei58wCmuA0ZicQ_sXoc)
+* [Circuit](https://www.tinkercad.com/things/3Qoy4BCUble-viktor-home-automation-system/editel?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard%2Fdesigns%2Fcircuits)
 
 ![Circuit breadboard](docs/Circuit_breadboard.png)
 ![Circuit diagram](docs/Circuit_diagram.png)
